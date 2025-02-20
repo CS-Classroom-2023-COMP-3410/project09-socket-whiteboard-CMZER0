@@ -29,7 +29,6 @@ export function setupCanvas(socket) {
 
     canvas.addEventListener("mousedown", () => (drawing = true));
     canvas.addEventListener("mouseup", () => (drawing = false));
-
     canvas.addEventListener("mousemove", (e) => {
         if (!drawing) return;
 
@@ -44,16 +43,16 @@ export function setupCanvas(socket) {
         console.log("Sending draw event to server:", data);
         socket.emit("draw", data);  // Send data to the server (do not draw yet)
     });
-
+    // Draw on canvas when receiving data from server
     socket.on("draw", (data) => {
         console.log("Received draw event from server:", data);
         drawOnCanvas(data.x, data.y, data.color, data.size);
     });
-
+    // Clear the board when the clear button is clicked
     socket.on("clearBoard", () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     });
-
+    // Load the current board state when a new user connects
     socket.on("boardState", (state) => {
         console.log("Loading board state:", state);
         state.forEach((data) => {

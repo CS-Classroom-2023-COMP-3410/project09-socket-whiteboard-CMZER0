@@ -13,6 +13,7 @@ const io = new Server(server, {
 
 let boardState = []; // Stores drawn points
 
+
 io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
@@ -34,7 +35,8 @@ io.on("connection", (socket) => {
         boardState = [];
         io.emit("clearBoard"); // Send event to all clients
     });
-
+    
+    // Handle user disconnect
     socket.on("disconnect", () => {
         console.log("User disconnected:", socket.id);
     });
